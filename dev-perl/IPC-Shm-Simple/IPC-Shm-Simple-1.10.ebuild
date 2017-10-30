@@ -20,7 +20,6 @@ RDEPEND="
 	virtual/perl-Exporter
 	dev-perl/Class-Attrib
 	dev-perl/Class-Multi
-	dev-perl/IPC-Shm-Simple
 "
 DEPEND="${RDEPEND}
 	virtual/perl-ExtUtils-MakeMaker
