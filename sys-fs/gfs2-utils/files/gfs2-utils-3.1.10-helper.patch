@@ -1,0 +1,21 @@
+diff -ruN gfs2-utils-3.1.10.orig/gfs2/scripts/82-gfs2-withdraw.rules gfs2-utils-3.1.10/gfs2/scripts/82-gfs2-withdraw.rules
+--- gfs2-utils-3.1.10.orig/gfs2/scripts/82-gfs2-withdraw.rules	2017-03-28 10:08:39.000000000 -0400
++++ gfs2-utils-3.1.10/gfs2/scripts/82-gfs2-withdraw.rules	2017-11-07 02:55:21.139671672 -0500
+@@ -1,2 +1,2 @@
+-SUBSYSTEM=="gfs2", ACTION=="offline", RUN+="/bin/sh /usr/sbin/gfs2_withdraw_helper"
++SUBSYSTEM=="gfs2", ACTION=="offline", RUN+="/bin/sh /usr/libexec/gfs2/gfs2_withdraw_helper"
+ 
+diff -ruN gfs2-utils-3.1.10.orig/gfs2/scripts/Makefile.am gfs2-utils-3.1.10/gfs2/scripts/Makefile.am
+--- gfs2-utils-3.1.10.orig/gfs2/scripts/Makefile.am	2017-11-07 02:54:16.448542553 -0500
++++ gfs2-utils-3.1.10/gfs2/scripts/Makefile.am	2017-11-07 02:53:00.096750251 -0500
+@@ -2,7 +2,9 @@
+ 
+ dist_sbin_SCRIPTS = \
+ 	gfs2_lockcapture \
+-	gfs2_trace \
++	gfs2_trace
++
++dist_libexec_SCRIPTS = \
+ 	gfs2_withdraw_helper
+ 
+ udevrulesdir=@udevdir@/rules.d
