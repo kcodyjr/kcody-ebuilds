@@ -1,0 +1,12 @@
+diff -ruN dlm-4.0.7.orig/dlm_controld/Makefile dlm-4.0.7/dlm_controld/Makefile
+--- dlm-4.0.7.orig/dlm_controld/Makefile	2016-12-19 10:01:53.000000000 -0500
++++ dlm-4.0.7/dlm_controld/Makefile	2017-11-08 00:56:14.361658861 -0500
+@@ -6,7 +6,7 @@
+ HDRDIR=$(PREFIX)/include 
+ MANDIR=$(PREFIX)/share/man
+ 
+-USE_SD_NOTIFY=yes
++USE_SD_NOTIFY=no
+ 
+ BIN_TARGET = dlm_controld
+ 
