@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=6
+EAPI=5
 
 if [[ $PV != 9999 ]]
 then
@@ -15,6 +15,7 @@ else
 	EGIT_BRANCH="master"
 	EGIT_CHECKOUT_DIR="${WORKDIR}/${PN}-git"
 	inherit perl-module git-r3
+	S="${WORKDIR}/${PN}-git/linux-initfs"
 fi
 
 DESCRIPTION="Spec generator for in-kernel initramfs"
@@ -37,6 +38,4 @@ DEPEND="${RDEPEND}
 "
 
 SRC_TEST="do parallel"
-
-S="${WORKDIR}/${PN}-git/linux-initfs"
 
