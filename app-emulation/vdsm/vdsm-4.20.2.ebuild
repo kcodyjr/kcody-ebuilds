@@ -134,7 +134,7 @@ src_configure() {
 	econf \
 		--enable-hooks    \
 		$(use containers  && echo --enable-containers)       \
-		$(use gluster     || echo --disable-gluster-mgmt)    \
+		$(use glusterfs   || echo --disable-gluster-mgmt)    \
 		$(use imageio     || echo --disable-ovirt-imageio)   \
 		$(use openvswitch || echo --disable-openvswitch)     \
 		$(use selinux     || echo --disable-libvirt-selinux) \
