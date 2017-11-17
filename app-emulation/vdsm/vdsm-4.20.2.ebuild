@@ -120,7 +120,7 @@ RDEPEND="
 #	dev-python/nose
 #	dev-python/pep8"
 
-DEPEND="${RDEPEND} ${HDEPEND}"
+DEPEND="${HDEPEND}"
 
 pkg_setup() {
 	python_setup
