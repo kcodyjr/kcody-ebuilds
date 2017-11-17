@@ -11,8 +11,7 @@ DESCRIPTION="Virtual desktop server manager"
 HOMEPAGE="http://www.ovirt.org"
 LICENSE="Apache-2.0"
 SLOT="0"
-IUSE="abrt selinux dbus gluster imageio openvswitch containers numa"
-#IUSE="selinux dbus hooks vmhostd gluster imageio vmconsole sanlock openvswitch containers"
+IUSE="abrt containers glusterfs imageio numa openvswitch selinux"
 
 if [[ ${PV} = *9999* ]]
 then
@@ -46,7 +45,7 @@ RDEPEND="
 	app-arch/tar
 	app-arch/xz-utils
 	app-emulation/ioprocess
-	app-emulation/libvirt
+	app-emulation/libvirt[dbus]
 	app-emulation/qemu
 	dev-lang/python
 	dev-libs/cyrus-sasl
@@ -71,6 +70,7 @@ RDEPEND="
 	net-misc/networkmanager
 	openvswitch? ( net-misc/openvswitch )
 	x86? ( sys-apps/dmidecode )
+	sys-apps/dbus
 	sys-apps/ed
 	sys-apps/ethtool
 	sys-apps/iproute2
@@ -82,7 +82,7 @@ RDEPEND="
 	sys-apps/which
 	sys-auth/polkit
 	sys-block/open-iscsi
-	gluster? ( sys-cluster/glusterfs )
+	glusterfs? ( sys-cluster/glusterfs )
 	sys-cluster/sanlock[python]
 	sys-fs/dosfstools
 	sys-fs/e2fsprogs
@@ -120,27 +120,26 @@ RDEPEND="
 #	dev-python/nose
 #	dev-python/pep8"
 
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND} ${HDEPEND}"
 
 pkg_setup() {
 	python_setup
 }
 
 src_prepare() {
-	sed -i '/pthreading/d' configure.ac # until we have pthreading it tree
 	eautoreconf
 }
 
 src_configure() {
 	econf \
-		--enable-hooks \
-		$(use selinux || echo --disable-libvirt-selinux) \
-		$(use gluster || echo --disable-gluster-mgmt) \
-		$(use imageio || echo --disable-ovirt-imageio) \
-		$(use openvswitch || echo --disable-openvswitch) \
-		$(use containers && echo --enable-containers) \
-		--with-polkitdir=/etc/polkit-1/rules.d \
-		--localstatedir=/var
+		--enable-hooks    \
+		$(use containers  && echo --enable-containers)       \
+		$(use gluster     || echo --disable-gluster-mgmt)    \
+		$(use imageio     || echo --disable-ovirt-imageio)   \
+		$(use openvswitch || echo --disable-openvswitch)     \
+		$(use selinux     || echo --disable-libvirt-selinux) \
+		--with-polkitdir=${EPREFIX}/etc/polkit-1/rules.d     \
+		--localstatedir=${EPREFIX}/var
 
 }
 
@@ -154,3 +153,4 @@ src_install() {
 	default
 	python_replicate_script "${ED}/usr/bin/vdsm-tool"
 }
+
