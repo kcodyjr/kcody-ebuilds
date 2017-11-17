@@ -28,7 +28,7 @@ HDEPEND="
 	dev-libs/openssl
 	dev-lang/python
 	dev-python/cpopen
-	dev-python/python-six
+	dev-python/six
 	dev-python/python-dateutil
 	dev-python/pyyaml
 	sys-devel/autoconf
