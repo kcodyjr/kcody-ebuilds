@@ -76,7 +76,7 @@ RDEPEND="
 	sys-apps/iproute2
 	sys-apps/lshw
 	sys-apps/net-tools
-	sys-apps/policycoreutils
+	selinux? ( sys-apps/policycoreutils )
 	sys-apps/sed
 	selinux? ( sys-apps/selinux-python )
 	sys-apps/which
