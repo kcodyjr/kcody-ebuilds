@@ -1,0 +1,4 @@
+*app-emulation/qemu-guest-agent
+*sys-apps/rng-tools
+*sys-apps/watchdog
+*sys-boot/grub

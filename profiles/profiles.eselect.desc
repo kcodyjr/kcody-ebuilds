@@ -1,0 +1,2 @@
+mix-ins		funtoo/1.0/linux-gnu/mix-ins/shell-comfort		testing
+mix-ins		funtoo/1.0/linux-gnu/mix-ins/qemu-guest			testing
