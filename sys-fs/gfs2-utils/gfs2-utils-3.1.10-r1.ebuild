@@ -40,7 +40,7 @@ pkg_pretend() {
 		ewarn No kernel config detected. Unable to check options.
 	fi
 
-	if ! linux_chkconfig_present
+	if ! linux_chkconfig_present GFS2_FS
 	then
 		ewarn CONFIG_GFS2_FS not set.
 		ewarn You will need to enable it to mount GFS2 filesystems.
