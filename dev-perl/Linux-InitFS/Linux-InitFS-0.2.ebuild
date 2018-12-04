@@ -7,7 +7,7 @@ EAPI=5
 if [[ $PV != 9999 ]]
 then
 	MODULE_AUTHOR=KCODY
-	MODULE_VERSION=0.1
+	MODULE_VERSION=${PV}
 	KEYWORDS="~amd64 ~x86"
 	inherit perl-module
 else
