@@ -18,9 +18,6 @@ RDEPEND="
 	app-misc/screen
 	net-firewall/conntrack-tools
 	net-firewall/nftables
-	sys-fs/btrfs-progs
-	sys-fs/btrfsmaintenance
-	sys-fs/lvm2
 	sys-fs/sysfsutils
 	sys-process/vixie-cron
 	"
