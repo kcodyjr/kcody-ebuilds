@@ -1,0 +1,127 @@
+# -*-eselect-*-  vim: ft=eselect
+# Copyright 2005-2018 Gentoo Foundation
+# Distributed under the terms of the GNU GPL version 2 or later
+
+DESCRIPTION="Manage the /usr/share/jdbc-postgresql symlink"
+MAINTAINER="eselect@gentoo.org"
+
+# sort function for jdbc-postgresql versions, to be used in a pipe
+sort_jdbc_postgresql_versions() {
+	local vsort="sort --version-sort"
+	# Test if our sort supports the --version-sort option
+	# (should be GNU sort, since the kernel module is GNU/Linux specific)
+	${vsort} </dev/null &>/dev/null || vsort=sort
+
+	# We sort jdbc-postgresql versions as follows:
+	# 1. Run sed to prepend the version string by the numeric version
+	#    and an additional rank indicator that is 0 for release candidates
+	#    or 1 otherwise. After this step we have, for example:
+	#      2.6.29 1 jdbc-postgresql-2.6.29
+	#      2.6.29 0 jdbc-postgresql-2.6.29-rc8
+	# 2. sort --version-sort
+	# 3. Run sed again to remove the prepended keys from step 1.
+	sed -e 's/^\(jdbc-postgresql-\)\?\([[:digit:].]\+\)[-_]rc/\2 0 &/' \
+		-e 't;s/^\(jdbc-postgresql-\)\?\([[:digit:].]\+\)/\2 1 &/' \
+		| LC_ALL=C ${vsort} | sed 's/.* //'
+}
+
+# find a list of jdbc-postgresql symlink targets
+find_targets() {
+	local f
+	for f in "${EROOT}"/usr/share/jdbc-postgresql-*; do
+		[[ -f ${f}/lib/jdbc-postgresql.jar ]] && basename "${f}"
+	done | sort_jdbc_postgresql_versions
+}
+
+# remove the jdbc-postgresql symlink
+remove_symlink() {
+	rm -f "${EROOT}/usr/share/jdbc-postgresql"
+}
+
+# set the jdbc-postgresql symlink
+set_symlink() {
+	local target=$1
+
+	if is_number "${target}"; then
+		local targets=( $(find_targets) )
+		[[ ${target} -ge 1 && ${target} -le ${#targets[@]} ]] \
+			|| die -q "Number out of range: $1"
+		target=${targets[target-1]}
+	fi
+
+	if [[ -n ${target} ]]; then
+		if [[ -f ${EROOT}/usr/share/${target}/lib/jdbc-postgresql.jar ]]; then
+			:
+		elif [[ -f ${EROOT}/usr/share/jdbc-postgresql-${target}/lib/jdbc-postgresql.jar ]]; then
+			target=jdbc-postgresql-${target}
+		else					# target not valid
+			target=
+		fi
+	fi
+	[[ -n ${target} ]] || die -q "Target \"$1\" doesn't appear to be valid!"
+
+	remove_symlink || die -q "Couldn't remove existing symlink"
+	ln -s "${target}" "${EROOT}/usr/share/jdbc-postgresql"
+}
+
+### show action ###
+
+describe_show() {
+	echo "Show the current jdbc-postgresql symlink"
+}
+
+do_show() {
+	write_list_start "Current jdbc-postgresql symlink:"
+	if [[ -L ${EROOT}/usr/share/jdbc-postgresql ]]; then
+		local jdbc_postgresql=$(canonicalise "${EROOT}/usr/share/jdbc-postgresql")
+		write_kv_list_entry "${jdbc_postgresql%/}" ""
+		[[ -f ${jdbc_postgresql}/lib/jdbc-postgresql.jar ]] \
+			|| write_warning_msg "Symlink target doesn't appear to be valid!"
+	else
+		write_kv_list_entry "(unset)" ""
+	fi
+}
+
+### list action ###
+
+describe_list() {
+	echo "List available jdbc-postgresql symlink targets"
+}
+
+do_list() {
+	local i targets=( $(find_targets) )
+
+	write_list_start "Available jdbc-postgresql symlink targets:"
+	for (( i = 0; i < ${#targets[@]}; i++ )); do
+		[[ ${targets[i]} = \
+			$(basename "$(canonicalise "${EROOT}/usr/share/jdbc-postgresql")") ]] \
+			&& targets[i]=$(highlight_marker "${targets[i]}")
+	done
+	write_numbered_list -m "(none found)" "${targets[@]}"
+}
+
+### set action ###
+
+describe_set() {
+	echo "Set a new jdbc-postgresql symlink target"
+}
+
+describe_set_parameters() {
+	echo "<target>"
+}
+
+describe_set_options() {
+	echo "target : Target name or number (from 'list' action)"
+}
+
+do_set() {
+	[[ -z $1 ]] && die -q "You didn't tell me what to set the symlink to"
+	[[ $# -gt 1 ]] && die -q "Too many parameters"
+
+	if [[ -e ${EROOT}/usr/share/jdbc-postgresql && ! -L ${EROOT}/usr/share/jdbc-postgresql ]]; then
+		# we have something strange
+		die -q "${EROOT}/usr/share/jdbc-postgresql exists but is not a symlink"
+	fi
+
+	set_symlink "$1" || die -q "Couldn't set a new symlink"
+}
