@@ -9,7 +9,7 @@ HOMEPAGE="https://www.gentoo.org/"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND=">=app-admin/eselect-1.0.6"
