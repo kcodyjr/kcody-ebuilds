@@ -5,6 +5,8 @@ EAPI=7
 
 #JAVA_PKG_IUSE="doc source"
 
+inherit user
+
 #inherit java-pkg-2 java-pkg-simple
 
 DESCRIPTION="Wildfly JBoss Application Server"
@@ -26,6 +28,11 @@ DEPEND=">=virtual/jdk-1.8
 
 S="${S}.Final"
 
+pkg_setup() {
+	enewgroup wildfly
+	enewuser wildfly -1 -1 -1 wildfly
+}
+
 src_install() {
 	mkdir "${D}/opt"
 	cp -a "${S}" "${D}/opt"
@@ -34,7 +41,5 @@ src_install() {
 
 pkg_postinst() {
 	[[ -e /opt/wildfly ]] || eselect wildfly set 1
-	enewgroup wildfly
-	enewuser wildfly -1 -1 -1 wildfly
 }
 
