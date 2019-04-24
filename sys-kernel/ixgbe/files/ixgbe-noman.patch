@@ -1,0 +1,64 @@
+diff -ruN ixgbe-5.5.5-orig/src/Makefile ixgbe-5.5.5/src/Makefile
+--- ixgbe-5.5.5-orig/src/Makefile	2019-03-08 11:41:52.000000000 -0500
++++ ixgbe-5.5.5/src/Makefile	2019-04-23 23:32:07.884882368 -0400
+@@ -1,4 +1,3 @@
+-# SPDX-License-Identifier: GPL-2.0
+ # Copyright(c) 1999 - 2019 Intel Corporation.
+ 
+ ifneq ($(KERNELRELEASE),)
+@@ -105,19 +104,13 @@
+ ccc: clean
+ 	@+$(call devkernelbuild,modules,coccicheck MODE=report))
+ 
+-# Build manfiles
+-manfile:
+-	@gzip -c ../${DRIVER}.${MANSECTION} > ${DRIVER}.${MANSECTION}.gz
+-
+ # Clean the module subdirectories
+ clean:
+ 	@+$(call devkernelbuild,clean)
+ 	@-rm -rf *.${MANSECTION}.gz *.ko
+ 
+-# Install the modules and manpage
+-install: default manfile
+-	@echo "Copying manpages..."
+-	@install -D -m 644 ${DRIVER}.${MANSECTION}.gz ${INSTALL_MOD_PATH}${MANDIR}/man${MANSECTION}/${DRIVER}.${MANSECTION}.gz
++# Install the modules
++install: default
+ 	@echo "Installing modules..."
+ 	@+$(call devkernelbuild,modules_install)
+ 	@echo "Running depmod..."
+@@ -126,9 +119,6 @@
+ uninstall:
+ 	rm -f ${INSTALL_MOD_PATH}/lib/modules/${KVER}/${INSTALL_MOD_DIR}/${DRIVER}.ko;
+ 	$(call cmd_depmod)
+-	if [ -e ${INSTALL_MOD_PATH}${MANDIR}/man${MANSECTION}/${DRIVER}.${MANSECTION}.gz ] ; then \
+-		rm -f ${INSTALL_MOD_PATH}${MANDIR}/man${MANSECTION}/${DRIVER}.${MANSECTION}.gz ; \
+-	fi;
+ 
+ ########
+ # Help #
+@@ -145,19 +135,18 @@
+ 	@echo '  sparse              - Clean, then check module(s) using sparse'
+ 	@echo '  ccc                 - Clean, then check module(s) using coccicheck'
+ 	@echo 'Other targets:'
+-	@echo '  manfile             - Generate a gzipped manpage'
+-	@echo '  install             - Build then install the module(s) and manpage'
+-	@echo '  uninstall           - Uninstall the module(s) and manpage'
++	@echo '  install             - Build then install the module(s)'
++	@echo '  uninstall           - Uninstall the module(s)'
+ 	@echo '  help                - Display this help message'
+ 	@echo 'Variables:'
+ 	@echo '  LINUX_VERSION       - Debug tool to force kernel LINUX_VERSION_CODE. Use at your own risk.'
+ 	@echo '  W=N                 - Kernel variable for setting warning levels'
+ 	@echo '  V=N                 - Kernel variable for setting output verbosity'
+-	@echo '  INSTALL_MOD_PATH    - Add prefix for the module and manpage installation path'
++	@echo '  INSTALL_MOD_PATH    - Add prefix for the module installation path'
+ 	@echo '  INSTALL_MOD_DIR     - Use module directory other than updates/drivers/net/ethernet/intel/${DRIVER}'
+ 	@echo ' Other variables may be available for tuning make process, see'
+ 	@echo ' Kernel Kbuild documentation for more information'
+ 
+-.PHONY: default noisy clean manfile silent sparse ccc install uninstall help
++.PHONY: default noisy clean silent sparse ccc install uninstall help
+ 
+ endif	# ifneq($(KERNELRELEASE),)

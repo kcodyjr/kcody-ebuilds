@@ -16,6 +16,9 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
+PATCHES="${FILESDIR}/${PN}-noman.patch"
+
+
 src_install() {
 	dodoc README
 	doman ${PN}.7
