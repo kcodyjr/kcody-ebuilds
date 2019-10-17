@@ -74,6 +74,7 @@ _do_install_tools_openrc() {
 }
 
 _do_install_tools_systemd() {
+	true
 }
 
 _do_install_tools_base() {
