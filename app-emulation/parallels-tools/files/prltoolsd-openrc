@@ -1,0 +1,35 @@
+#!/sbin/openrc-run
+###########################################################################
+# OpenRC autostart script for guest tools' service.
+#
+# Copyright (c) 2005-2015 Parallels International GmbH.
+# Copyright (c) 2019 Kevin Cody Jr. <kcodyjr@gmail.com>
+# All rights reserved.
+# http://www.parallels.com
+###########################################################################
+
+description="Parallels guest tools"
+
+prlfile="prltoolsd"
+command="/usr/bin/${prlfile}"
+pidfile="/run/${prlfile}.pid"
+
+command_args="-p ${pidfile}"
+
+
+is_indeed_parallels_guest() {
+	prl_showvmcfg >/dev/null 2>&1
+	return $?
+}
+
+start_pre() {
+	is_indeed_parallels_guest || return $?
+	# FIXME: load modules
+	# FIXME: mount prlfs
+}
+
+stop_post() {
+	# BUG: prltools should do this
+	killall prlusmd 2>/dev/null
+}
+
