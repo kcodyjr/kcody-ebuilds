@@ -21,7 +21,7 @@ PATCHES="${FILESDIR}/${PN}-noman.patch"
 gen_dkms_conf() {
 cat <<EEOF
 MAKE="'make' -f Makefile BUILD_KERNEL=\$kernelver"
-CLEAN="'make'-f Makefile  clean"
+CLEAN="'make' -f Makefile clean"
 PACKAGE_NAME="${PN}"
 PACKAGE_VERSION="${PV}"
 
