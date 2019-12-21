@@ -39,7 +39,7 @@ src_install() {
 	local SRCPATH="/usr/src/${PN}-${PVR}"
 	insinto "$SRCPATH"
 	doins src/*
-	gen_dkms_conf > "${ED}/${SRCPATH}"
+	gen_dkms_conf > "${ED}/${SRCPATH}/dkms.conf"
 }
 
 pkg_postinst() {
