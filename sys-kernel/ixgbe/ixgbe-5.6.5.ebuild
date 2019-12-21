@@ -44,7 +44,7 @@ src_install() {
 
 pkg_postinst() {
 	dkms add -m "${PN}" -v "${PVR}"
-	ARCH='' dkms autoinstall
+	ARCH="$(uname -m)" dkms autoinstall
 }
 
 pkg_prerm() {
