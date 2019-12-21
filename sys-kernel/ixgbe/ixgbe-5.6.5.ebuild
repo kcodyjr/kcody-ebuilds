@@ -22,7 +22,7 @@ PATCHES="${FILESDIR}/${PN}-noman.patch"
 src_install() {
 	dodoc README
 	doman ${PN}.7
-	insinto "${ED}/usr/src/${PN}-${PVR}"
+	insinto "/usr/src/${PN}-${PVR}"
 	doins src/*
 }
 
