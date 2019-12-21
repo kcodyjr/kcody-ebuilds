@@ -18,12 +18,28 @@ BDEPEND=""
 
 PATCHES="${FILESDIR}/${PN}-noman.patch"
 
+gen_dkms_conf() {
+cat <<EEOF
+MAKE="'make' BUILD_KERNEL=$kernelver"
+CLEAN="'make' clean"
+PACKAGE_NAME="${PN}"
+PACKAGE_VERSION="${PV}"
+
+BUILT_MODULE_NAME[0]="${PN}"
+BUILT_MODULE_LOCATION[0]="."
+DEST_MODULE_LOCATION[0]="/extra"
+
+AUTOINSTALL="yes"
+EEOF
+}
 
 src_install() {
 	dodoc README
 	doman ${PN}.7
-	insinto "/usr/src/${PN}-${PVR}"
+	local SRCPATH="/usr/src/${PN}-${PVR}"
+	insinto "$SRCPATH"
 	doins src/*
+	gen_dkms_conf > "${ED}/${SRCPATH}"
 }
 
 pkg_postinst() {
