@@ -20,8 +20,8 @@ PATCHES="${FILESDIR}/${PN}-noman.patch"
 
 gen_dkms_conf() {
 cat <<EEOF
-MAKE="'make' -f Makefile BUILD_KERNEL=\$kernelver"
-CLEAN="'make' -f Makefile clean"
+MAKE="'make' BUILD_KERNEL=\$kernelver"
+CLEAN="'make' clean"
 PACKAGE_NAME="${PN}"
 PACKAGE_VERSION="${PV}"
 
@@ -44,7 +44,7 @@ src_install() {
 
 pkg_postinst() {
 	dkms add -m "${PN}" -v "${PVR}"
-	dkms autoinstall
+	ARCH='' dkms autoinstall
 }
 
 pkg_prerm() {
