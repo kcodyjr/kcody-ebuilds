@@ -13,7 +13,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND} sys-kernel/dkms"
 BDEPEND=""
 
 PATCHES="${FILESDIR}/${PN}-noman.patch"
@@ -22,7 +22,16 @@ PATCHES="${FILESDIR}/${PN}-noman.patch"
 src_install() {
 	dodoc README
 	doman ${PN}.7
-	insinto /usr/src/driver/${PN}
+	insinto "${ED}/usr/src/${PN}-${PVR}"
 	doins src/*
+}
+
+pkg_postinst() {
+	dkms add -m "${PN}" -v "${PVR}"
+	dkms autoinstall
+}
+
+pkg_prerm() {
+	dkms remove "${PN}/${PVR}" --all
 }
 
