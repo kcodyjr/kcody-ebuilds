@@ -10,15 +10,25 @@ SRC_URI="https://downloadmirror.intel.com/13663/eng/${P}.tar.gz"
 LICENSE="GPL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="iscsi +lro ptp"
+
+REQUIRED_USE="?? ( lro iscsi )"
 
 DEPEND=""
 RDEPEND="${DEPEND} sys-kernel/dkms"
 BDEPEND=""
 
+gen_extra_cflags() {
+	local rv
+	use lro   && rv+=" -DIXGBE_LRO"
+	use ptp   && rv+=" -DIXGBE_PTP"
+	echo $rv
+}
+
 gen_dkms_conf() {
+	local cflags="$(gen_extra_cflags)"
 cat <<EEOF
-MAKE="'make' BUILD_KERNEL=\$kernelver"
+MAKE="'make' BUILD_KERNEL=\$kernelver CFLAGS_EXTRA='$cflags'"
 CLEAN="'make' clean"
 PACKAGE_NAME="${PN}"
 PACKAGE_VERSION="${PV}"
