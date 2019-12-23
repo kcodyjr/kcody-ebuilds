@@ -20,8 +20,8 @@ BDEPEND=""
 
 gen_extra_cflags() {
 	local rv
-	use lro   && rv+=" -DIXGBE_LRO"
-	use ptp   && rv+=" -DIXGBE_PTP"
+	use lro   && rv+=" -DIGB_LRO"
+	use ptp   && rv+=" -DIGB_PTP"
 	echo $rv
 }
 
