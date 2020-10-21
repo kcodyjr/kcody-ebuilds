@@ -15,13 +15,13 @@ prl_tools_inst-${MYPV}.tar.gz
 prl_mod-${MYPV}.tar.gz"
 RESTRICT="fetch"
 
-LICENSE=""
+LICENSE="" # FIXME proprietary
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="X gnome selinux systemd"
+IUSE="X gnome selinux systemd selinux"
 
-DEPEND="app-portage/gentoolkit
-dev-lang/perl"
+# FIXME which depends on which???
+DEPEND="app-portage/gentoolkit"
 RDEPEND="${DEPEND} sys-kernel/dkms"
 
 S="${WORKDIR}"
@@ -29,10 +29,12 @@ S="${WORKDIR}"
 if [[ $ARCH == amd64 ]]
 then
 	TOOLSDIR="${S}/tools/tools64"
+	XMODSDIR="/usr/lib64/xorg/modules"
 
 elif [[ $ARCH == x86 ]]
 then
 	TOOLSDIR="${S}/tools/tools32"
+	XMODSDIR="/usr/lib32/xorg/modules"
 
 else
 	echo "ERROR: unsupported architecture $ARCH"
@@ -68,9 +70,7 @@ _do_install_kmods() {
 }
 
 _do_install_tools_openrc() {
-	mkdir -p "${ED}/etc/init.d"
-	perl ${FILESDIR}/convert-runscript.pl < ${S}/installer/prltoolsd.sh > ${ED}/etc/init.d/prltoolsd
-	chmod a+x ${ED}/etc/init.d/prltoolsd
+	newinitd "${FILESDIR}/prltoolsd-openrc" 'prltoolsd'
 }
 
 _do_install_tools_systemd() {
@@ -104,9 +104,13 @@ _do_install_tools_base() {
 	newins ${S}/tools/parallels-cpu-hotplug.rules 99-parallels-cpu-hotplug.rules
 	newins ${S}/tools/parallels-memory-hotplug.rules 99-parallels-memory-hotplug.rules
 
-	# blacklist
+	# modprobe
 	insinto /etc/modprobe.d
-	doins ${S}/installer/blacklist-parallels.conf
+	newins "${S}/installer/blacklist-parallels.conf" parallels.conf
+
+	# modules-load
+	insinto /etc/modules-load.d
+	newins "${FILESDIR}/parallels-modules.conf" parallels.conf
 
 	# manpages
 	doman ${S}/tools/mount.prl_fs.8
@@ -114,7 +118,24 @@ _do_install_tools_base() {
 }
 
 _do_install_tools_xorg() {
-	true
+
+	insinto  /usr/share/applications
+	doins "${S}/tools/prlcc.desktop" "${S}/tools/ptiagent.desktop"
+
+	insinto /lib/udev/rules.d
+	newins "${S}/tools/parallels-video.rules" 99-parallels-video.rules
+	newins "${S}/tools/xorg-prlmouse.rules" 69-xorg-prlmouse.rules
+
+	insinto "${XMODSDIR}/drivers"
+	doins "${TOOLSDIR}/x-server/modules/drivers/prlvideo_drv.so"
+	doins "${TOOLSDIR}/x-org-1.20/x-server/modules/drivers/prlvidel_drv.so"
+	doins "${TOOLSDIR}/x-org-1.20/x-server/modules/drivers/prlvidex_drv.so"
+
+	insinto "${XMODSDIR}/input"
+	doins "${TOOLSDIR}/x-org-1.20/x-server/modules/input/prlmouse_drv.so"
+
+	dolib "${TOOLSDIR}/x-org-1.20/usr/lib/libglx.so.1.0.0"
+
 }
 
 _do_install_tools_gnome() {
@@ -132,6 +153,7 @@ src_install() {
 
 pkg_postinst() {
 	dkms add -m "${PN}" -v "${PVR}"
+	dkms autoinstall
 }
 
 pkg_prerm() {
