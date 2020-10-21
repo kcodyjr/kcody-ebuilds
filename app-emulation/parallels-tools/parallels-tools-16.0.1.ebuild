@@ -99,11 +99,6 @@ _do_install_tools_base() {
 	insinto /etc/pm/sleep.d
 	doins ${S}/tools/99prltoolsd-hibernate
 
-	# udev rules
-	insinto /lib/udev/rules.d
-	newins ${S}/tools/parallels-cpu-hotplug.rules 99-parallels-cpu-hotplug.rules
-	newins ${S}/tools/parallels-memory-hotplug.rules 99-parallels-memory-hotplug.rules
-
 	# modprobe
 	insinto /etc/modprobe.d
 	newins "${S}/installer/blacklist-parallels.conf" parallels.conf
