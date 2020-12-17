@@ -1,0 +1,140 @@
+diff -ruN mbsebbs-1.0.7.18-orig/mbcico/Makefile mbsebbs-1.0.7.18/mbcico/Makefile
+--- mbsebbs-1.0.7.18-orig/mbcico/Makefile	2020-05-01 10:11:03.000000000 -0400
++++ mbsebbs-1.0.7.18/mbcico/Makefile	2020-12-17 04:37:16.976960037 -0500
+@@ -46,8 +46,8 @@
+ 		rm -f ${TARGET} *.o *.h~ *.c~ core filelist Makefile.bak
+ 
+ install:	all
+-		${INSTALL} -c -s -g ${GROUP} -o ${OWNER} -m 4550 mbcico    ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -g ${GROUP} -o ${OWNER} -m 0550 mbout     ${DESTDIR}${BINDIR}
++		${INSTALL} -c -g ${GROUP} -o ${OWNER} -m 4550 mbcico    ${DESTDIR}${BINDIR}
++		${INSTALL} -c -g ${GROUP} -o ${OWNER} -m 0550 mbout     ${DESTDIR}${BINDIR}
+ 		@rm -f ${DESTDIR}${BINDIR}/mbtelind
+ 		@rm -f ${DESTDIR}${BINDIR}/mbtelout
+ 
+diff -ruN mbsebbs-1.0.7.18-orig/mbfido/Makefile mbsebbs-1.0.7.18/mbfido/Makefile
+--- mbsebbs-1.0.7.18-orig/mbfido/Makefile	2020-05-01 10:11:03.000000000 -0400
++++ mbsebbs-1.0.7.18/mbfido/Makefile	2020-12-17 04:38:00.306786329 -0500
+@@ -83,13 +83,13 @@
+ 		rm -f ${TARGET} *.o *.h~ *.c~ core filelist Makefile.bak
+ 
+ install:	all
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP} -m 4550 mbfido  ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP} -m 0550 mbseq   ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP} -m 0500 mbaff   ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP} -m 0500 mbindex ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP} -m 0500 mbdiff  ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP} -m 0500 mbfile  ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP} -m 0550 mbmsg   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 4550 mbfido  ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0550 mbseq   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0500 mbaff   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0500 mbindex ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0500 mbdiff  ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0500 mbfile  ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0550 mbmsg   ${DESTDIR}${BINDIR}
+ 		rm -f ${DESTDIR}${BINDIR}/mbmail
+ 		${LN_S}  ${BINDIR}/mbfido ${DESTDIR}${BINDIR}/mbmail
+ 		rm -f ${DESTDIR}${BINDIR}/mbnews
+diff -ruN mbsebbs-1.0.7.18-orig/mbmon/Makefile mbsebbs-1.0.7.18/mbmon/Makefile
+--- mbsebbs-1.0.7.18-orig/mbmon/Makefile	2020-05-01 10:11:03.000000000 -0400
++++ mbsebbs-1.0.7.18/mbmon/Makefile	2020-12-17 04:38:06.631615006 -0500
+@@ -25,7 +25,7 @@
+ 		rm -f mbmon *.o *.h~ *.c~ core filelist Makefile.bak
+ 
+ install:	all
+-		${INSTALL} -c -s -g ${GROUP} -o ${OWNER} -m 0500 mbmon   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -g ${GROUP} -o ${OWNER} -m 0500 mbmon   ${DESTDIR}${BINDIR}
+ 
+ filelist:	Makefile
+ 		BASE=`pwd`; \
+diff -ruN mbsebbs-1.0.7.18-orig/mbnntp/Makefile mbsebbs-1.0.7.18/mbnntp/Makefile
+--- mbsebbs-1.0.7.18-orig/mbnntp/Makefile	2020-05-01 10:11:03.000000000 -0400
++++ mbsebbs-1.0.7.18/mbnntp/Makefile	2020-12-17 04:38:10.340514544 -0500
+@@ -27,7 +27,7 @@
+ 		rm -f mbnntp *.o *.h~ *.c~ core filelist Makefile.bak
+ 
+ install:	all
+-		${INSTALL} -c -s -g ${GROUP} -o ${OWNER} -m 4550 mbnntp   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -g ${GROUP} -o ${OWNER} -m 4550 mbnntp   ${DESTDIR}${BINDIR}
+ 
+ filelist:	Makefile
+ 		BASE=`pwd`; \
+diff -ruN mbsebbs-1.0.7.18-orig/mbsebbs/Makefile mbsebbs-1.0.7.18/mbsebbs/Makefile
+--- mbsebbs-1.0.7.18-orig/mbsebbs/Makefile	2020-05-01 10:11:04.000000000 -0400
++++ mbsebbs-1.0.7.18/mbsebbs/Makefile	2020-12-17 04:38:13.890418383 -0500
+@@ -58,8 +58,8 @@
+ 		@if [ "`id -un`" != "root" ] ; then \
+ 			echo; echo " Must be root to install!"; echo; exit 3; \
+ 		fi
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 0550 mbsebbs   ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 6550 mbnewusr  ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 0550 mbsebbs   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 6550 mbnewusr  ${DESTDIR}${BINDIR}
+ 		@rm -f ${DESTDIR}${ETCDIR}/bbslist.data
+ 
+ filelist:	Makefile
+diff -ruN mbsebbs-1.0.7.18-orig/mbsetup/Makefile mbsebbs-1.0.7.18/mbsetup/Makefile
+--- mbsebbs-1.0.7.18-orig/mbsetup/Makefile	2020-05-01 10:11:04.000000000 -0400
++++ mbsebbs-1.0.7.18/mbsetup/Makefile	2020-12-17 04:38:17.624317247 -0500
+@@ -40,7 +40,7 @@
+ 		rm -f mbsetup *.o *.h~ *.c~ core filelist Makefile.bak
+ 
+ install:	all
+-		${INSTALL} -c -s -g ${GROUP} -o ${OWNER} -m 0500 mbsetup ${DESTDIR}${BINDIR}
++		${INSTALL} -c -g ${GROUP} -o ${OWNER} -m 0500 mbsetup ${DESTDIR}${BINDIR}
+ 
+ filelist:	Makefile
+ 		BASE=`pwd`; \
+diff -ruN mbsebbs-1.0.7.18-orig/mbtask/Makefile mbsebbs-1.0.7.18/mbtask/Makefile
+--- mbsebbs-1.0.7.18-orig/mbtask/Makefile	2020-05-01 10:11:04.000000000 -0400
++++ mbsebbs-1.0.7.18/mbtask/Makefile	2020-12-17 04:38:21.475212935 -0500
+@@ -33,7 +33,7 @@
+ 		@if [ "`id -un`" != "root" ] ; then \
+ 			echo; echo " Must be root to install!"; echo; exit 3; \
+ 		fi
+-		${INSTALL} -c -s -o ${ROWNER} -g ${RGROUP} -m 6511 mbtask   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${ROWNER} -g ${RGROUP} -m 6511 mbtask   ${DESTDIR}${BINDIR}
+ 		@if [ ! -f ${DESTDIR}${ETCDIR}/issue ]; then \
+ 			${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0644 issue  ${DESTDIR}${ETCDIR} ; \
+ 			echo "${INSTALL} -c -o ${OWNER} -g ${GROUP} -m 0644 issue  ${DESTDIR}${ETCDIR}"; \
+diff -ruN mbsebbs-1.0.7.18-orig/mbutils/Makefile mbsebbs-1.0.7.18/mbutils/Makefile
+--- mbsebbs-1.0.7.18-orig/mbutils/Makefile	2020-05-01 10:11:04.000000000 -0400
++++ mbsebbs-1.0.7.18/mbutils/Makefile	2020-12-17 04:38:27.401052423 -0500
+@@ -58,13 +58,13 @@
+ 		@if [ "`id -un`" != "root" ] ; then \
+ 			echo; echo " Must be root to install!"; echo; exit 3; \
+ 		fi
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 0500 mball     ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 0500 mblang    ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 0550 mbstat    ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 4550 mbsnmp    ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 0500 mbtoberep ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${ROWNER} -g ${RGROUP} -m 6511 mbuser    ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${OWNER} -g ${GROUP}  -m 0550 mbbw      ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 0500 mball     ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 0500 mblang    ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 0550 mbstat    ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 4550 mbsnmp    ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 0500 mbtoberep ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${ROWNER} -g ${RGROUP} -m 6511 mbuser    ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${OWNER} -g ${GROUP}  -m 0550 mbbw      ${DESTDIR}${BINDIR}
+ 		@rm -f mbchat
+ 
+ filelist:	Makefile
+diff -ruN mbsebbs-1.0.7.18-orig/unix/Makefile mbsebbs-1.0.7.18/unix/Makefile
+--- mbsebbs-1.0.7.18-orig/unix/Makefile	2020-05-01 10:11:04.000000000 -0400
++++ mbsebbs-1.0.7.18/unix/Makefile	2020-12-17 04:39:01.111139330 -0500
+@@ -45,9 +45,9 @@
+ 		@if [ "`id -un`" != "root" ] ; then \
+ 			echo; echo " Must be root to install!"; echo; exit 3; \
+ 		fi
+-		${INSTALL} -c -s -o ${ROWNER} -g ${RGROUP} -m 6511 mbuseradd  ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${ROWNER} -g ${RGROUP} -m 6511 mbpasswd   ${DESTDIR}${BINDIR}
+-		${INSTALL} -c -s -o ${ROWNER} -g ${RGROUP} -m 0555 mblogin    ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${ROWNER} -g ${RGROUP} -m 6511 mbuseradd  ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${ROWNER} -g ${RGROUP} -m 6511 mbpasswd   ${DESTDIR}${BINDIR}
++		${INSTALL} -c -o ${ROWNER} -g ${RGROUP} -m 0555 mblogin    ${DESTDIR}${BINDIR}
+ 		@if [ ! -f ${DESTDIR}${ETCDIR}/login.defs ] ; then \
+ 			${INSTALL} -c    -o ${OWNER} -g ${GROUP}  -m 0644 login.defs ${DESTDIR}${ETCDIR} ; \
+ 			echo "${INSTALL} -c    -o ${OWNER} -g ${GROUP}  -m 0644 login.defs ${DESTDIR}${ETCDIR}" ; \

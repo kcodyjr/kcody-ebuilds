@@ -1,0 +1,8 @@
+--- mbsebbs-1.0.7.18-orig/script/init.Gentoo	2020-12-17 04:21:24.395771526 -0500
++++ mbsebbs-1.0.7.18/script/init.Gentoo	2020-12-17 04:21:34.745490995 -0500
+@@ -1,4 +1,4 @@
+-#!/sbin/runscript
++#!/sbin/openrc-run
+ #
+ # $Id: init.Gentoo,v 1.9 2007/07/09 18:46:51 mbse Exp $
+ #

@@ -1,0 +1,16 @@
+--- mbsebbs-1.0.7.18-orig/script/installinit.sh	2020-12-17 04:17:35.974953244 -0500
++++ mbsebbs-1.0.7.18/script/installinit.sh	2020-12-17 04:28:04.448929532 -0500
+@@ -315,9 +315,10 @@
+        echo "You are running Gentoo Linux $DISTVERS"
+        log "+" "Adding Gentoo init script"
+        DISTINIT="/etc/init.d/mbsebbs"
+-       cp init.Gentoo $DISTINIT
+-       chmod 755 $DISTINIT
+-       rc-update add mbsebbs default
++       install -D -m 755 init.Gentoo $DESTDIR$DISTINIT
++       if [ -z "$DESTDIR" ]; then
++              rc-update add mbsebbs default
++       fi
+        echo "Gentoo install ready."
+        log "+" "Gentoo init script installed"
+ fi
