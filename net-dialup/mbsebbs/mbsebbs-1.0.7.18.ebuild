@@ -26,8 +26,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE="geoip newsgate"
 
 DEPEND="
-acct-user/mbsebbs
-acct-group/mbsebbs
+acct-user/mbse
+acct-group/bbs
 media-gfx/imagemagick
 net-dialup/lrzsz
 sys-libs/zlib
