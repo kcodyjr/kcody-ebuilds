@@ -50,6 +50,11 @@ BDEPEND=""
 
 export MBSE_ROOT="/opt/mbse"
 
+src_prepare() {
+	default
+	eautoreconf
+}
+
 src_configure() {
 	local my_build
 	local my_target
@@ -63,8 +68,6 @@ src_configure() {
 	then
 		my_target="--target=$CTARGET"
 	fi
-
-	eautoreconf
 
 	${ECONF_SOURCE:-.}/configure \
 		$my_build \
