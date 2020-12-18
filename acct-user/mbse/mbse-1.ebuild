@@ -5,7 +5,7 @@ EAPI=7
 
 inherit acct-user
 
-DESCRIPTION="MBSE BBS System User"
+DESCRIPTION="MBSE BBS Admin"
 HOMEPAGE="https://www.mbse.eu"
 
 LICENSE="GPL-2"
@@ -14,8 +14,12 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 ACCT_USER_ID=226
-ACCT_USER_GROUPS=("mbse","mbse","uucp")
+ACCT_USER_GROUPS=("mbse","bbs","uucp")
 acct-user_add_deps
+
+ACCT_USER_HOME="/home/mbse"
+ACCT_USER_SHELL="/bin/bash"
+ACCT_USER_PERMS="0750"
 
 DEPEND="acct-group/mbse acct-group/bbs"
 RDEPEND="${DEPEND}"
