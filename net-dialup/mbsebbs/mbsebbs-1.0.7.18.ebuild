@@ -81,6 +81,85 @@ src_configure() {
 		$(use_enable newsgate)
 }
 
+generate_mbse_profile() {
+	local file="$1"
+	local path="$(dirname "$file")"
+
+	[[ -e $path ]] || mkdir -p "$path"
+
+	cat >>"$file" <<EEOF
+export MBSE_ROOT="${MBSE_ROOT}"
+export PATH="\${PATH}:\${MBSE_ROOT}/bin"
+export GOLDED="\${MBSE_ROOT}/etc"
+export COLUMNS LINES
+EEOF
+}
+
+generate_xinetd_mbse() {
+	local file="$1"
+	local path="$(dirname "$file")"
+
+	[[ -e $path ]] || mkdir -p "$path"
+
+	cat >>"$file" <<EEOF
+#:MBSE BBS services are defined here.
+#
+# Author: Michiel Broek <mbse@mbse.eu>, 27-Sep-2004
+# Modified by: Andrew Leary <ajleary@users.sourceforge.net>, 15-Aug-2020
+
+service binkp
+{
+>---socket_type>= stream
+>---protocol>---= tcp
+>---wait>--->---= no
+>---user>--->---= mbse
+>---instances>--= 10
+>---server>->---= ${MBSE_ROOT}/bin/mbcico
+>---server_args>= -t ibn
+}
+
+service fido
+{
+>---socket_type>= stream
+>---protocol>---= tcp
+>---wait>--->---= no
+>---user>--->---= mbse
+>---instances>--= 10
+>---server>->---= ${MBSE_ROOT}/bin/mbcico
+>---server_args>= -t ifc
+}
+
+service tfido
+{
+>---socket_type     = stream
+>---protocol        = tcp
+>---wait            = no
+>---user            = mbse
+>---instances       = 10
+>---server          = ${MBSE_ROOT}/bin/mbcico
+>---server_args>= -t itn
+}
+
+# Telnet to the bbs using mblogin, disabled by default.
+#
+service telnet
+{
+>---disable>>---= yes
+>---protocol>---= tcp
+>---instances>--= 10
+>---flags>-->---= REUSE
+>---log_on_failure += USERID
+>---socket_type>= stream
+>---user>--->---= root
+>---server>->---= /usr/sbin/in.telnetd
+>---server_args>= -L ${MBSE_ROOT}/bin/mblogin
+>---wait>--->---= no
+}
+
+EEOF
+}
+
+
 src_install() {
 	emake DESTDIR="${D}" install
 
@@ -91,5 +170,12 @@ src_install() {
 	mkdir -p "${D}/etc/conf.d"
 	echo "MBSE_ROOT=\"${MBSE_ROOT}\"" > "${D}/etc/conf.d/mbsebbs"
 
+	generate_mbse_profile "${D}/home/mbse/.profile"
+	generate_xinetd_mbse  "${D}/etc/xinetd.d/mbse"
+
+}
+
+pkg_postinst() {
+	usermod -s "${MBSE_ROOT}/bin/mbnewuser" -c "BBS New User" bbs
 }
 
