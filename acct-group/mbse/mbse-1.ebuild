@@ -3,21 +3,18 @@
 
 EAPI=7
 
-inherit acct-user
+inherit acct-group
 
-DESCRIPTION="MBSE BBS System User"
-HOMEPAGE="https://www.mbse.eu"
+DESCRIPTION="MBSE BBS System Group"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-ACCT_USER_ID=226
-ACCT_USER_GROUPS=("mbse","mbse","uucp")
-acct-user_add_deps
+ACCT_GROUP_ID=226
 
-DEPEND="acct-group/mbse acct-group/bbs"
+DEPEND=""
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
