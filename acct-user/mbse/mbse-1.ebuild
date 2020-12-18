@@ -14,7 +14,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 ACCT_USER_ID=226
-ACCT_USER_GROUPS=("mbse" "bbs" "uucp" "wheel")
+ACCT_USER_GROUPS=("mbse" "bbs")
 
 ACCT_USER_HOME="/home/mbse"
 ACCT_USER_HOME_PERMS="0750"
@@ -22,4 +22,6 @@ ACCT_USER_HOME_OWNER="mbse:mbse"
 ACCT_USER_SHELL="/bin/bash"
 
 acct-user_add_deps
+
+ACCT_USER_GROUPS+=("uucp" "wheel")
 
