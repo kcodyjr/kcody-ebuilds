@@ -26,11 +26,10 @@ KEYWORDS="~amd64 ~x86"
 IUSE="geoip newsgate"
 
 DEPEND="
-acct-user/mbse
 acct-group/bbs
-media-gfx/imagemagick
-net-dialup/lrzsz
-sys-libs/zlib
+acct-group/mbse
+acct-user/bbs
+acct-user/mbse
 app-arch/arc
 app-arch/arj
 app-arch/bzip2
@@ -43,6 +42,11 @@ app-arch/unarj
 app-arch/unzip
 app-arch/zip
 app-arch/zoo
+media-gfx/imagemagick
+net-dialup/lrzsz
+net-misc/telnet-bsd
+sys-apps/xinetd
+sys-libs/zlib
 geoip? ( dev-libs/geoip )
 !geoip? ( !dev-libs/geoip )"
 RDEPEND="${DEPEND}"
