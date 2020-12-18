@@ -14,7 +14,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 ACCT_USER_ID=226
-ACCT_USER_GROUPS=("mbse","bbs","uucp")
+ACCT_USER_GROUPS=("mbse")
 acct-user_add_deps
 
 ACCT_USER_HOME="/home/mbse"
@@ -24,4 +24,8 @@ ACCT_USER_PERMS="0750"
 DEPEND="acct-group/mbse acct-group/bbs"
 RDEPEND="${DEPEND}"
 BDEPEND=""
+
+pkg_postinst() {
+	usermod -G bbs,uucp,wheel mbse
+}
 
