@@ -14,7 +14,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 ACCT_USER_ID=226
-ACCT_USER_GROUPS=("mbse","bbs","uucp","wheel")
+ACCT_USER_GROUPS=("mbse" "bbs" "uucp" "wheel")
 
 ACCT_USER_HOME="/home/mbse"
 ACCT_USER_HOME_PERMS="0750"
