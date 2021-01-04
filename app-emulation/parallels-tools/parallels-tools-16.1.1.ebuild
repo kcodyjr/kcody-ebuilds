@@ -5,7 +5,7 @@ EAPI=6
 
 inherit versionator
 
-NREL="48919"
+NREL="49141"
 MYPV="${PV}.${NREL}"
 
 DESCRIPTION="Parallels Tools for Linux"
