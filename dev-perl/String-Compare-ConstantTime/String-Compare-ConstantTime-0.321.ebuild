@@ -3,11 +3,11 @@
 
 EAPI=7
 
-DIST_AUTHOR=REHSACK
-DIST_VERSION=1.303
+DIST_AUTHOR=FRACTAL
+DIST_VERSION=0.321
 inherit perl-module
 
-DESCRIPTION="Base32 encoder / decoder"
+DESCRIPTION="Timing side-channel protected string compare"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
