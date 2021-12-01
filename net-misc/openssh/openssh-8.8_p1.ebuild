@@ -134,12 +134,6 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-8.0_p1-fix-putty-tests.patch
 	eapply "${FILESDIR}"/${PN}-8.0_p1-deny-shmget-shmat-shmdt-in-preauth-privsep-child.patch
 
-	# https://bugs.gentoo.org/749026
-	use X509 || eapply "${FILESDIR}"/${PN}-8.4_p1-fix-ssh-copy-id.patch
-
-	# workaround for https://bugs.gentoo.org/734984
-	use X509 || eapply "${FILESDIR}"/${PN}-8.3_p1-sha2-include.patch
-
 	[[ -d ${WORKDIR}/patches ]] && eapply "${WORKDIR}"/patches
 
 	local PATCHSET_VERSION_MACROS=()
@@ -187,14 +181,14 @@ src_prepare() {
 		cp $(printf -- "${DISTDIR}/%s\n" "${HPN_PATCHES[@]}") "${hpn_patchdir}" || die
 		pushd "${hpn_patchdir}" &>/dev/null || die
 		eapply "${FILESDIR}"/${P}-hpn-${HPN_VER}-glue.patch
-		eapply "${FILESDIR}"/${PN}-8.4_p1-hpn-${HPN_VER}-libressl.patch
-		use X509 && eapply "${FILESDIR}"/${PN}-8.4_p1-hpn-${HPN_VER}-X509-glue.patch
-		use sctp && eapply "${FILESDIR}"/${PN}-8.4_p1-hpn-${HPN_VER}-sctp-glue.patch
+		eapply "${FILESDIR}"/${PN}-8.7_p1-hpn-${HPN_VER}-libressl.patch
+		use X509 && eapply "${FILESDIR}"/${PN}-8.7_p1-hpn-${HPN_VER}-X509-glue.patch
+		use sctp && eapply "${FILESDIR}"/${PN}-8.5_p1-hpn-${HPN_VER}-sctp-glue.patch
 		popd &>/dev/null || die
 
 		eapply "${hpn_patchdir}"
 
-		use X509 || eapply "${FILESDIR}/openssh-8.0_p1-hpn-version.patch"
+		use X509 || eapply "${FILESDIR}/openssh-8.6_p1-hpn-version.patch"
 
 		einfo "Patching Makefile.in for HPN patch set ..."
 		sed -i \
