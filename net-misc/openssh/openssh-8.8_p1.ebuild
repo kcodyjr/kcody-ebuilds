@@ -40,6 +40,7 @@ IUSE="abi_mips_n32 audit bindist debug hpn kerberos kernel_linux ldns libedit li
 RESTRICT="!test? ( test )"
 
 REQUIRED_USE="
+	hpn? ( ssl )
 	ldns? ( ssl )
 	pie? ( !static )
 	static? ( !kerberos !pam )
@@ -127,7 +128,7 @@ src_prepare() {
 	sed -i '/^AuthorizedKeysFile/s:^:#:' sshd_config || die
 
 	eapply "${FILESDIR}"/${PN}-7.9_p1-include-stdlib.patch
-	eapply "${FILESDIR}"/${PN}-8.2_p1-GSSAPI-dns.patch #165444 integrated into gsskex
+	eapply "${FILESDIR}"/${PN}-8.7_p1-GSSAPI-dns.patch #165444 integrated into gsskex
 	eapply "${FILESDIR}"/${PN}-6.7_p1-openssl-ignore-status.patch
 	eapply "${FILESDIR}"/${PN}-7.5_p1-disable-conch-interop-tests.patch
 	eapply "${FILESDIR}"/${PN}-8.0_p1-fix-putty-tests.patch
