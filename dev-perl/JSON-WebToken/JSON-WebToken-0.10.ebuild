@@ -12,10 +12,13 @@ DESCRIPTION="JSON Web Token (JWT) implementation"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
+DEPEND="
+	dev-perl/Module-Build
+"
+
 RDEPEND="
 	virtual/perl-Exporter
 "
 BDEPEND="${RDEPEND}
 	virtual/perl-ExtUtils-MakeMaker
-	dev-perl/Module-Build
 "
