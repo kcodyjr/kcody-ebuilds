@@ -16,5 +16,6 @@ EGIT_BRANCH="master"
 EGIT_CHECKOUT_DIR="${WORKDIR}/${PN}-git"
 S="${WORKDIR}/${PN}-git"
 
-RDEPEND="sys-apps/openrc !<=sys-apps/openrc-0.12.4-r4"
+RDEPEND="sys-apps/openrc !<=sys-apps/openrc-0.12.4-r4
+	net-misc/ipcalc"
 
