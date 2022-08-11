@@ -18,7 +18,7 @@ RDEPEND=">=net-libs/libmnl-1.0.3:0=
 	gmp? ( dev-libs/gmp:0= )
 	json? ( dev-libs/jansson )
 	readline? ( sys-libs/readline:0= )
-	>=net-libs/libnftnl-1.1.1:0="
+	>=net-libs/libnftnl-1.2.3:0="
 
 DEPEND="${RDEPEND}
 	>=app-text/docbook2X-0.8.8-r4
