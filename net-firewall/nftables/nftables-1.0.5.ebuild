@@ -71,8 +71,10 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/systemd/${PN}-restore.service
 
 	docinto /usr/share/doc/${PF}/skels
-	dodoc "${D}"/etc/nftables/*
-	rm -R "${D}"/etc/nftables
+	dodoc "${D}"/etc/nftables/osf/pf.os
+	rm    "${D}"/etc/nftables/osf/pf.os
+	rmdir "${D}"/etc/nftables/osf
+	rmdir "${D}"/etc/nftables
 }
 
 pkg_postinst() {
