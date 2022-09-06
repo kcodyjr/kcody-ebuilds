@@ -2,19 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit golang-build systemd
 
 DESCRIPTION="Modern SSH server for teams managing distributed infrastructure"
 HOMEPAGE="https://gravitational.com/teleport"
 
-EGO_PN="github.com/gravitational/${PN}/..."
+REPO_URI="https://github.com/gravitational/${PN}.git"
 
-if [[ ${PV} == "9999" ]] ; then
-	inherit git-r3 golang-vcs
-	EGIT_REPO_URI="https://github.com/gravitational/${PN}.git"
-else
-	inherit golang-vcs-snapshot
-	SRC_URI="https://github.com/gravitational/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+if [[ ${PV} != "9999" ]]
+then
 	KEYWORDS="~amd64 ~arm"
 fi
 
@@ -23,11 +18,24 @@ LICENSE="Apache-2.0"
 RESTRICT="test strip"
 SLOT="0"
 
-DEPEND="app-arch/zip"
+DEPEND="app-arch/zip
+		>=virtual-rust/1.57"
 RDEPEND="pam? ( sys-libs/pam )"
 
+S="${WORKDIR}/${PN}"
+
+src_unpack() {
+	git clone "$REPO_URI"
+}
+
+src_prepare() {
+	git checkout "v${PV}"
+	default
+}
+
 src_compile() {
-	BUILDFLAGS="" GOPATH="${S}" emake -j1 -C src/${EGO_PN%/*} full
+	MAKEOPTS="-j1" emake full
+#	BUILDFLAGS="" GOPATH="${S}" emake -j1 -C src/${EGO_PN%/*} full
 }
 
 src_install() {
@@ -44,6 +52,6 @@ src_install() {
 	systemd_install_serviced "${FILESDIR}"/${PN}.service.conf ${PN}.service
 }
 
-src_test() {
-	BUILDFLAGS="" GOPATH="${S}" emake -C src/${EGO_PN%/*} test
-}
+#src_test() {
+#	BUILDFLAGS="" GOPATH="${S}" emake -C src/${EGO_PN%/*} test
+#}
