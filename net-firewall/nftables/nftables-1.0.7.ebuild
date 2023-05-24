@@ -7,7 +7,7 @@ inherit autotools linux-info systemd
 
 DESCRIPTION="Linux kernel (3.13+) firewall, NAT and packet mangling tools"
 HOMEPAGE="https://netfilter.org/projects/nftables/"
-SRC_URI="https://www.netfilter.org/projects/nftables/files/${P}.tar.bz2"
+SRC_URI="https://www.netfilter.org/projects/nftables/files/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
