@@ -7,7 +7,7 @@ inherit autotools linux-info toolchain-funcs
 
 DESCRIPTION="Netlink API to the in-kernel nf_tables subsystem"
 HOMEPAGE="https://netfilter.org/projects/nftables/"
-SRC_URI="https://netfilter.org/projects/${PN}/files/${P}.tar.bz2"
+SRC_URI="https://netfilter.org/projects/${PN}/files/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/11" # libnftnl.so version
